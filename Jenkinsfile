@@ -60,7 +60,6 @@ pipeline {
                     docker pull $DOCKER_REPO
                     docker run -d --name flask-container -p 5000:5000 $DOCKER_REPO
                     EOF
-                    """
                 }
             }
         }
