@@ -21,6 +21,14 @@ pipeline {
         }
     }
 
+stage('Run Tests') {
+    steps {
+        echo '🧪 Running Unit Tests...'
+        sh 'docker run --rm -v $PWD/app:/app -w /app python:3.9-slim pytest'
+    }
+}
+
+    
     post {
         always {
             echo "✅ Build completed."
