@@ -43,12 +43,11 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 echo '📦 Pushing Docker Image to DockerHub...'
-                withCredentials([string(credentialsId: 'docker-hub', variable: 'DOCKER_PASS')]) {
-                    sh '''
-                        docker login -u $DOCKER_USER -p $DOCKER_PASS
-                        docker tag $IMAGE_NAME $DOCKER_REPO
-                        docker push $DOCKER_REPO
-                    '''
+                withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+    sh 'docker push flask-app-image'
+}
+
                 }
             }
         }
