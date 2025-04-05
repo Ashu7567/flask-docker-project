@@ -23,19 +23,25 @@ pipeline {
         }
 
         stage('Run Tests') {
-    steps {
-        echo '🧪 Running Unit Tests...'
-        sh '''
-            docker run --rm $IMAGE_NAME pytest
-        '''
-    }
-}
-
+            steps {
+                echo '🧪 Running Unit Tests...'
+                sh '''
+                    docker run --rm \
+                        -v ${WORKSPACE}/app:/app \
+                        -w /app \
+                        $IMAGE_NAME \
+                        pytest
+                '''
+            }
+        }
 
         stage('Run Containers using Docker Compose') {
             steps {
                 echo '🚀 Running Docker Compose...'
-                sh 'docker-compose -f docker-compose.yml up -d'
+                sh '''
+                    docker-compose down || true
+                    docker-compose -f docker-compose.yml up -d
+                '''
             }
         }
     }
