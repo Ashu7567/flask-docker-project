@@ -50,6 +50,19 @@ pipeline {
     }
 }
 
+        stage('Push to DockerHub') {
+    steps {
+        echo '📦 Pushing Docker Image to DockerHub...'
+        withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            sh '''
+                docker login -u $DOCKER_USER -p $DOCKER_PASS
+                docker tag flask-app-image $DOCKER_USER/flask-app:latest
+                docker push $DOCKER_USER/flask-app:latest
+            '''
+        }
+    }
+}
+
 
         
     }
