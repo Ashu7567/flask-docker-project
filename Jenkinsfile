@@ -2,36 +2,35 @@ pipeline {
     agent any
 
     environment {
-        COMPOSE_PROJECT_NAME = "flaskdocker"
+        IMAGE_NAME = 'flask-app-image'
     }
 
     stages {
         stage('Build Docker Image') {
             steps {
-                echo "🔨 Building Docker image..."
-                sh 'docker build -t flask-app-image ./app'
+                echo '🔨 Building Docker image...'
+                sh 'docker build -t $IMAGE_NAME ./app'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo '🧪 Running Unit Tests...'
+                sh 'docker run --rm -v $PWD/app:/app -w /app python:3.9-slim pytest'
             }
         }
 
         stage('Run Containers using Docker Compose') {
             steps {
-                echo "🚀 Running Docker Compose..."
+                echo '🚀 Running app with Docker Compose...'
                 sh 'docker-compose up -d'
             }
         }
     }
 
-stage('Run Tests') {
-    steps {
-        echo '🧪 Running Unit Tests...'
-        sh 'docker run --rm -v $PWD/app:/app -w /app python:3.9-slim pytest'
-    }
-}
-
-    
     post {
         always {
-            echo "✅ Build completed."
+            echo '✅ Build completed.'
         }
     }
 }
