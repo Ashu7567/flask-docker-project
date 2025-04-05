@@ -63,6 +63,17 @@ pipeline {
     }
 }
 
+        stage('Deploy to Remote Server') {
+            steps {
+                echo '🚀 Deploying to remote server...'
+                sh '''
+                ssh -o StrictHostKeyChecking=no root@<YOUR_PUBLIC_IP> << EOF
+                cd /root/flask-app/
+                git pull origin main
+                docker-compose down || true
+                docker-compose up -d --build
+                EOF
+                '''
 
         
     }
