@@ -63,20 +63,19 @@ pipeline {
     }
 }
 
-        stage('Deploy to Remote Server') {
-            steps {
-                echo '🚀 Deploying to remote server...'
-                sh '''
-                ssh -o StrictHostKeyChecking=no root@<YOUR_PUBLIC_IP> << EOF
-                cd /root/flask-app/
-                git pull origin main
-                docker-compose down || true
-                docker-compose up -d --build
-                EOF
-                '''
-
-        
+        stage('Deploy to Server') {
+    steps {
+        echo '🚀 Deploying to remote server...'
+        sh '''
+        ssh -o StrictHostKeyChecking=no root@142.93.66.255 << EOF
+        docker stop flask-container || true
+        docker rm flask-container || true
+        docker pull $DOCKER_USER/flask-app:latest
+        docker run -d --name flask-container -p 5000:5000 $DOCKER_USER/flask-app:latest
+        EOF
+        '''
     }
+}
 
     post {
         always {
