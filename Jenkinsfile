@@ -27,7 +27,7 @@ pipeline {
                 echo '🧪 Running Unit Tests...'
                 sh '''
                     docker run --rm \
-                        -v $PWD/app:/app \
+                        -v ${WORKSPACE}/app:/app \
                         -w /app \
                         $IMAGE_NAME \
                         pytest
