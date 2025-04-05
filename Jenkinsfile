@@ -13,6 +13,18 @@ pipeline {
             }
         }
 
+        stage('Run Containers using Docker Compose') {
+            steps {
+                echo '🚀 Running Docker Compose...'
+                sh '''
+                    docker-compose down || true
+                    docker-compose -f docker-compose.yml up -d
+                '''
+            }
+        }
+
+
+        
         stage('Build Docker Image') {
             steps {
                 echo '🔨 Building Docker image...'
@@ -32,15 +44,7 @@ pipeline {
 }
 
 
-        stage('Run Containers using Docker Compose') {
-            steps {
-                echo '🚀 Running Docker Compose...'
-                sh '''
-                    docker-compose down || true
-                    docker-compose -f docker-compose.yml up -d
-                '''
-            }
-        }
+        
     }
 
     post {
