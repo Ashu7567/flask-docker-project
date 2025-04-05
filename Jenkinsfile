@@ -5,7 +5,7 @@ pipeline {
         IMAGE_NAME = "flask-app-image"
         DOCKER_REPO = "ashu7567/flask-app:latest"
         DOCKER_USER = "ashu7567"
-        DOCKER_PASS = credentials('docker-hub-pass') // Jenkins Credentials ID
+        DOCKER_PASS = credentials('docker-hub') // Jenkins Credentials ID
     }
 
     stages {
