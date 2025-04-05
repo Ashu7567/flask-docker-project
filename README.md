@@ -15,7 +15,14 @@ This project demonstrates a complete CI/CD pipeline for a simple Flask web appli
 
 
 
-flask-docker-project/ │ ├── app/ │ ├── app.py │ ├── requirements.txt │ └── test_app.py │ ├── Dockerfile ├── docker-compose.yml └── Jenkinsfile
+flask-docker-project/
+   ├── app/ │ 
+     ├── app.py │ 
+     ├── test_app.py
+     ├── requirements.txt
+     ├── Dockerfile 
+ ├── docker-compose.yml
+ ├──Jenkinsfile
 
 
 ---
