@@ -14,6 +14,7 @@ pipeline {
                 checkout scm
             }
         }
+    }
 
         stage('Build Docker Image') {
             steps {
@@ -50,7 +51,7 @@ pipeline {
 
                 }
             }
-        }
+        
 
         stage('Deploy to Server') {
             steps {
@@ -68,11 +69,12 @@ pipeline {
                 }
             }
         }
-    }
+    
 
     post {
         always {
             echo '✅ Build completed.'
         }
     }
+
 }
