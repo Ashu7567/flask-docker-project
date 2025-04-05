@@ -14,14 +14,21 @@ pipeline {
         }
 
         stage('Run Containers using Docker Compose') {
-            steps {
-                echo '🚀 Running Docker Compose...'
-                sh '''
-                    docker-compose down || true
-                    docker-compose -f docker-compose.yml up -d
-                '''
-            }
-        }
+    steps {
+        echo '🚀 Running Docker Compose...'
+        sh '''
+            # Stop and remove any running containers and networks
+            docker-compose down -v --remove-orphans || true
+
+            # Remove leftover container (if still exists)
+            docker rm -f flask-container || true
+
+            # Now bring everything up fresh
+            docker-compose -f docker-compose.yml up -d
+        '''
+    }
+}
+
 
 
         
