@@ -11,6 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy app code
 COPY . .
+RUN pip install pytest
 
 # Expose port
 EXPOSE 5000
