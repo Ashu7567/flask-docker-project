@@ -50,20 +50,21 @@ pipeline {
         }
 
         stage('Deploy to Server') {
-            steps {
-                echo '🚀 Deploying to remote server...'
-                script {
-                    sh """
-                        ssh -o StrictHostKeyChecking=no root@142.93.66.255 << EOF
-                        docker stop flask-container || true
-                        docker rm flask-container || true
-                        docker pull $DOCKER_REPO
-                        docker run -d --name flask-container -p 5000:5000 $DOCKER_REPO
-                        EOF
-                    """
-                }
-            }
+    steps {
+        echo '🚀 Deploying to remote server...'
+        script {
+            sh """
+            ssh -o StrictHostKeyChecking=no root@142.93.66.255 << 'ENDSSH'
+                docker stop flask-container || true
+                docker rm flask-container || true
+                docker pull $DOCKER_REPO
+                docker run -d --name flask-container -p 5000:5000 $DOCKER_REPO
+ENDSSH
+            """
         }
+    }
+}
+
     }
 
     post {
